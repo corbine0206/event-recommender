@@ -15,7 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="calendar-svgrepo-com.svg" type="image/svg+xml">
     <title>Event</title>
     <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
@@ -68,41 +67,83 @@
                         <script src="scanner.js"></script>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Participants Email</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $con = openConnection();
-                                    $event_id = $_GET['eventID'];
-                                    $session_title = $_GET['session_title'];
-                                    $strSql = "SELECT * FROM attendance where event_id = '$event_id' and session_title = '$session_title'";
-                                    $result = getRecord($con, $strSql);
-                                    foreach ($result as $key => $session) {
-                                        echo 
-                                        '<tr>
-                                            <td>' . ($key + 1) . '</td>
-                                            <td>' . $session['email'] . '</td>
-                                            <td>' . $session['dateIn'] . '</td>
-                                            <td>' . $session['timeIn'] . '</td>
-                                        </tr>';
-                                    }
-                                    closeConnection($con);
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Participants Email</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $con = openConnection();
+                                            $event_id = $_GET['eventID'];
+                                            $session_title = $_GET['session_title'];
+                                            $strSql = "SELECT * FROM attendance where event_id = '$event_id' and session_title = '$session_title'";
+                                            $result = getRecord($con, $strSql);
+                                            foreach ($result as $key => $session) {
+                                                echo 
+                                                '<tr>
+                                                    <td>' . ($key + 1) . '</td>
+                                                    <td>' . $session['email'] . '</td>
+                                                    <td>' . $session['dateIn'] . '</td>
+                                                    <td>' . $session['timeIn'] . '</td>
+                                                </tr>';
+                                            }
+                                            closeConnection($con);
 
-                                    ?>
-                                </tbody>
+                                            ?>
+                                        </tbody>
 
-                            </table>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Participants Email</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $con = openConnection();
+                                            $event_id = $_GET['eventID'];
+                                            $session_title = $_GET['session_title'];
+                                            $strSql = "SELECT * FROM attendance where event_id = '$event_id' and session_title = '$session_title'";
+                                            $result = getRecord($con, $strSql);
+                                            foreach ($result as $key => $session) {
+                                                echo 
+                                                '<tr>
+                                                    <td>' . ($key + 1) . '</td>
+                                                    <td>' . $session['email'] . '</td>
+                                                    <td>' . $session['dateIn'] . '</td>
+                                                    <td>' . $session['timeIn'] . '</td>
+                                                </tr>';
+                                            }
+                                            closeConnection($con);
+
+                                            ?>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
 
                 </div>
                 <!-- /.container-fluid -->

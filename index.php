@@ -13,8 +13,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="http://localhost/event-recommender/js/tailwind.config.js"></script>
         <link rel="icon" href="calendar-svgrepo-com.svg" type="image/svg+xml">
         <title>Event Demand Generation</title>
 
