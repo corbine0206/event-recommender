@@ -101,8 +101,8 @@ if (isset($_POST['btnSubmit'])) {
     // Remove the temporary file
     unlink($tempFile);
 
-    $outputFileName = "$email.png";
-    $textToEncode = $email;
+    $outputFileName = "$participants_id.png";
+    $textToEncode = $participants_id;
     // Generate the QR code
     QRcode::png($textToEncode, $outputFileName, QR_ECLEVEL_L, 3);
     if ($returnCode === 0) {
@@ -139,7 +139,7 @@ if (isset($_POST['btnSubmit'])) {
                             $emailContent .= "<hr>";
                             // Reserve Time1
                             $reserved_time1[] = $time_slot_identifier;
-                            $sqlInsertSessionRecommend = "INSERT INTO sesion_recommend (event_id, session_name, participants_id) VALUES ('$event_id', '$session_title', '$participants_id')";
+                            $sqlInsertSessionRecommend = "INSERT INTO sesion_recommend (event_id, session_title, participants_id) VALUES ('$event_id', '$session_title', '$participants_id')";
                             if (mysqli_query($connection, $sqlInsertSessionRecommend)) {
                                 // echo "Session recommendation inserted successfully.<br>";
                             } else {
@@ -154,7 +154,7 @@ if (isset($_POST['btnSubmit'])) {
                             $emailContent .= "<hr>";
                             // Reserve Time2
                             $reserved_time2[] = $time_slot_identifier;
-                            $sqlInsertSessionRecommend = "INSERT INTO sesion_recommend (event_id, session_name, participants_id) VALUES ('$event_id', '$session_title', '$participants_id')";
+                            $sqlInsertSessionRecommend = "INSERT INTO sesion_recommend (event_id, session_title, participants_id) VALUES ('$event_id', '$session_title', '$participants_id')";
                             if (mysqli_query($connection, $sqlInsertSessionRecommend)) {
                                 // echo "Session recommendation inserted successfully.<br>";
                             } else {

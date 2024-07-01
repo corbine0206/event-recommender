@@ -57,7 +57,7 @@
                                 echo "<p>Already scanned</p>";
                             }
                         ?>
-                        <video id="qr-video" width="400" height="300" autoplay playsinline></video>
+                        <video id="qr-video" width="800" height="600" autoplay playsinline></video>
                         <form id="qr-form" method="post" action="process_qr.php">
                             <input type="hidden" name="event_id" value="<?php echo $_GET['eventID']; ?>">
                             <input type="hidden" name="session_title" value="<?php echo $_GET['session_title']; ?>">
