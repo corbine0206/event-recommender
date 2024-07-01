@@ -67,82 +67,6 @@
                         <script src="scanner.js"></script>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Participants Email</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $con = openConnection();
-                                            $event_id = $_GET['eventID'];
-                                            $session_title = $_GET['session_title'];
-                                            $strSql = "SELECT * FROM attendance where event_id = '$event_id' and session_title = '$session_title'";
-                                            $result = getRecord($con, $strSql);
-                                            foreach ($result as $key => $session) {
-                                                echo 
-                                                '<tr>
-                                                    <td>' . ($key + 1) . '</td>
-                                                    <td>' . $session['email'] . '</td>
-                                                    <td>' . $session['dateIn'] . '</td>
-                                                    <td>' . $session['timeIn'] . '</td>
-                                                </tr>';
-                                            }
-                                            closeConnection($con);
-
-                                            ?>
-                                        </tbody>
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Participants Email</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $con = openConnection();
-                                            $event_id = $_GET['eventID'];
-                                            $session_title = $_GET['session_title'];
-                                            $strSql = "SELECT * FROM attendance where event_id = '$event_id' and session_title = '$session_title'";
-                                            $result = getRecord($con, $strSql);
-                                            foreach ($result as $key => $session) {
-                                                echo 
-                                                '<tr>
-                                                    <td>' . ($key + 1) . '</td>
-                                                    <td>' . $session['email'] . '</td>
-                                                    <td>' . $session['dateIn'] . '</td>
-                                                    <td>' . $session['timeIn'] . '</td>
-                                                </tr>';
-                                            }
-                                            closeConnection($con);
-
-                                            ?>
-                                        </tbody>
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     
 
                 </div>
@@ -150,30 +74,30 @@
             </div>
             <!-- End of Main Content -->
             <script>
-            const video = document.getElementById('qr-video');
-            const qrResult = document.getElementById('qr-result');
-            const scannedDataInput = document.getElementById('scanned-data'); // Input field to display scanned data
+                const video = document.getElementById('qr-video');
+                const qrResult = document.getElementById('qr-result');
+                const scannedDataInput = document.getElementById('scanned-data'); // Input field to display scanned data
 
-            const scanner = new Instascan.Scanner({ video: video });
-            scanner.addListener('scan', function (content) {
-                qrResult.innerText = content;
+                const scanner = new Instascan.Scanner({ video: video });
+                scanner.addListener('scan', function (content) {
+                    qrResult.innerText = content;
 
-                // Update the input field with scanned data
-                scannedDataInput.value = content;
+                    // Update the input field with scanned data
+                    scannedDataInput.value = content;
 
-                // Submit the form automatically
-                document.forms[0].submit(); // Assuming it's the first form on the page
-            });
+                    // Submit the form automatically
+                    document.forms[0].submit(); // Assuming it's the first form on the page
+                });
 
-            Instascan.Camera.getCameras().then(function (cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                } else {
-                    console.error('No cameras found.');
-                }
-            }).catch(function (err) {
-                console.error('Error accessing the camera:', err);
-            });
+                Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                        scanner.start(cameras[0]);
+                    } else {
+                        console.error('No cameras found.');
+                    }
+                }).catch(function (err) {
+                    console.error('Error accessing the camera:', err);
+                });
 
             </script>
 

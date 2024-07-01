@@ -50,114 +50,78 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $sqlParticipants = "SELECT * FROM participants WHERE event_id = '$event_id'";
-                                        $participants = getRecord($con, $sqlParticipants);
+                                            <?php
+                                            $sqlParticipants = "SELECT * FROM participants WHERE event_id = '$event_id'";
+                                            $participants = getRecord($con, $sqlParticipants);
 
-                                        foreach($participants as $participant) {
-                                            $participant_id = $participant['participants_id'];
-                                            $printedSessionTitles = [];
-                                            $sqlDouble = "SELECT p.full_name, a.session_title AS attendance_session_title, sr.session_title AS sr_session_title, p.participants_id, a.dateIn, a.timeIn 
-                                                        FROM participants AS p
-                                                        JOIN sesion_recommend AS sr ON sr.participants_id = p.participants_id 
-                                                        JOIN attendance AS a ON a.participants_id = p.participants_id 
-                                                        WHERE a.session_title = sr.session_title 
-                                                        AND p.event_id = '$event_id' 
-                                                        AND p.participants_id = '$participant_id'";
-                                            $doubles = getRecord($con, $sqlDouble);
+                                            foreach($participants as $participant) {
+                                                $participant_id = $participant['participants_id'];
+                                                $printedSessionTitles = [];
 
-                                            // Print participant name once
-                                            echo '<tr class="border-b dark:border-gray-700">
-                                                    <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white" rowspan="'.count($doubles).'">'.$participant['full_name'].'</th>';
+                                                $sqlDouble = "SELECT p.full_name, a.session_title AS session_title, p.participants_id, a.dateIn, a.timeIn, 'double' AS type 
+                                                            FROM participants AS p
+                                                            JOIN sesion_recommend AS sr ON sr.participants_id = p.participants_id 
+                                                            JOIN attendance AS a ON a.participants_id = p.participants_id 
+                                                            WHERE a.session_title = sr.session_title 
+                                                            AND p.event_id = '$event_id' 
+                                                            AND p.participants_id = '$participant_id'";
+                                                $doubles = getRecord($con, $sqlDouble);
 
-                                                // Loop through each session detail for the participant
-                                                foreach($doubles as $double) {
-                                                    
-                                                    echo '<td class="px-4 py-3">'. $double['sr_session_title'].'</td>
-                                                        <td class="px-4 py-3">'.$double['dateIn'].'</td>
-                                                        <td class="px-4 py-3">'. $double['timeIn'].'</td>
-                                                        <td class="px-4 py-3">
-                                                            <div class="absolute right-0 top-7 content-center sm:relative sm:right-auto sm:top-auto">
-                                                                <!-- Recommended -->
-                                                                <span class="inline-flex items-center rounded bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                                                $sqlRecommend = "SELECT p.full_name, sr.session_title AS session_title, p.participants_id, 'N/A' AS dateIn, 'N/A' AS timeIn, 'recommend' AS type 
+                                                                FROM participants AS p
+                                                                JOIN sesion_recommend AS sr ON sr.participants_id = p.participants_id 
+                                                                AND p.event_id = '$event_id' 
+                                                                AND p.participants_id = '$participant_id'";
+                                                $recommends = getRecord($con, $sqlRecommend);
+
+                                                $sqlAttend = "SELECT p.full_name, a.session_title AS session_title, p.participants_id, a.dateIn, a.timeIn, 'attend' AS type 
+                                                            FROM participants AS p
+                                                            JOIN attendance AS a ON a.participants_id = p.participants_id 
+                                                            AND p.event_id = '$event_id' 
+                                                            AND p.participants_id = '$participant_id'";
+                                                $attends = getRecord($con, $sqlAttend);
+
+                                                $combinedData = array_merge($doubles, $recommends, $attends);
+
+                                                $namePrinted = false;
+                                                foreach ($combinedData as $data) {
+                                                    if (!in_array($data['session_title'], $printedSessionTitles)) {
+                                                        echo '<tr class="border-b dark:border-gray-700">';
+                                                        if (!$namePrinted) {
+                                                            echo '<th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white align-top py-6" rowspan="' . count($combinedData) . '">' . $participant['full_name'] . '</th>';
+                                                            $namePrinted = true;
+                                                        }
+                                                        echo '<td class="px-4 py-3">' . $data['session_title'] . '</td>';
+                                                        echo '<td class="px-4 py-3">' . $data['dateIn'] . '</td>';
+                                                        echo '<td class="px-4 py-3">' . $data['timeIn'] . '</td>';
+                                                        echo '<td class="px-4 py-3">';
+                                                        echo '<div class="absolute right-0 top-7 content-center sm:relative sm:right-auto sm:top-auto">';
+                                                        if ($data['type'] == 'recommend' || $data['type'] == 'double') {
+                                                            echo '<span class="inline-flex items-center rounded bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
                                                                     <svg class="me-1 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 4h-13m13 16h-13M8 20v-3.333a2 2 0 0 1 .4-1.2L10 12.6a1 1 0 0 0 0-1.2L8.4 8.533a2 2 0 0 1-.4-1.2V4h8v3.333a2 2 0 0 1-.4 1.2L13.957 11.4a1 1 0 0 0 0 1.2l1.643 2.867a2 2 0 0 1 .4 1.2V20H8Z" />
                                                                     </svg>
                                                                     Recommended
-                                                                </span>
-                                                                <!-- Attended -->
-                                                                <span class="inline-flex items-center rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
+                                                                </span>';
+                                                        }
+                                                        if ($data['type'] == 'attend' || $data['type'] == 'double') {
+                                                            echo '<span class="inline-flex items-center rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
                                                                     <svg class="me-1 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5" />
                                                                     </svg>
-                                                                    Attended 
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>';
-                                                    $printedSessionTitles[] = $double['sr_session_title'];
-                                                }
-                                                
-                                                $sqlRecommend = "SELECT p.full_name,  sr.session_title AS sr_session_title, p.participants_id 
-                                                FROM participants AS p
-                                                JOIN sesion_recommend AS sr ON sr.participants_id = p.participants_id 
-                                                AND p.event_id = '$event_id' 
-                                                AND p.participants_id = '$participant_id'";
-                                                $recommends = getRecord($con, $sqlRecommend);
-                                                foreach($recommends as $recommend){
-                                                    if (!in_array($recommend['sr_session_title'], $printedSessionTitles)) {
-                                                        echo '
-                                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white" rowspan="'.count($recommend).'"></th>
-                                                        <td class="px-4 py-3">'. $recommend['sr_session_title'].'</td>
-                                                            <td class="px-4 py-3">N/A</td>
-                                                            <td class="px-4 py-3">N/A</td>
-                                                            <td class="px-4 py-3">
-                                                                <div class="absolute right-0 top-7 content-center sm:relative sm:right-auto sm:top-auto">
-                                                                    <!-- Recommended -->
-                                                                    <span class="inline-flex items-center rounded bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                                                                        <svg class="me-1 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 4h-13m13 16h-13M8 20v-3.333a2 2 0 0 1 .4-1.2L10 12.6a1 1 0 0 0 0-1.2L8.4 8.533a2 2 0 0 1-.4-1.2V4h8v3.333a2 2 0 0 1-.4 1.2L13.957 11.4a1 1 0 0 0 0 1.2l1.643 2.867a2 2 0 0 1 .4 1.2V20H8Z" />
-                                                                        </svg>
-                                                                        Recommended
-                                                                    </span>
-                                                                </div>
-                                                            </td>
-                                                        </tr>';
-                                                        $printedSessionTitles[] = $recommend['sr_session_title'];
+                                                                    Attended
+                                                                </span>';
+                                                        }
+                                                        echo '</div>';
+                                                        echo '</td>';
+                                                        echo '</tr>';
+                                                        $printedSessionTitles[] = $data['session_title'];
                                                     }
                                                 }
-                                                $sqlAttend = "SELECT p.full_name, a.session_title AS attendance_session_title, p.participants_id, a.dateIn, a.timeIn 
-                                                        FROM participants AS p
-                                                        JOIN attendance AS a ON a.participants_id = p.participants_id 
-                                                        AND p.event_id = '$event_id' 
-                                                        AND p.participants_id = '$participant_id'";
-                                                $attends = getRecord($con, $sqlAttend);
-                                                foreach($attends as $attend){
-                                                    if (!in_array($attend['attendance_session_title'], $printedSessionTitles)) {
-                                                        echo '
-                                                        
-                                                        <td class="px-4 py-3">'. $attend['attendance_session_title'].'</td>
-                                                            <td class="px-4 py-3">'. $attend['dateIn'].'</td>
-                                                            <td class="px-4 py-3">'. $attend['timeIn'].'</td>
-                                                            <td class="px-4 py-3">
-                                                                <div class="absolute right-0 top-7 content-center sm:relative sm:right-auto sm:top-auto">
-                                                                    <!-- Recommended -->
-                                                                    <span class="inline-flex items-center rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
-                                                                        <svg class="me-1 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5" />
-                                                                        </svg>
-                                                                        Attended 
-                                                                    </span>
-                                                                </div>
-                                                            </td>
-                                                        </tr>';
-                                                        $printedSessionTitles[] = $attend['attendance_session_title'];
-                                                    }
-                                                }
-                                                echo '</tr>';
-                                        }
-                                        ?>
-                                    </tbody>
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
 
                                 </table>
                             </div>

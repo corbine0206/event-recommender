@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    include 'connection.php';
+    date_default_timezone_set('Asia/Manila');
+    $user_id = $_SESSION['user_id'];
+?>
 <!DOCTYPE>
 <html>
     <head>
@@ -27,20 +33,30 @@
                             <tr>
                                 <th scope="col" class="px-4 py-3">Event Name</th>
                                 <th scope="col" class="px-4 py-3">Number of Sessions</th>
-                                <th scope="col" class="px-4 py-3">Date</th>
                                 <th scope="col" class="px-4 py-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b dark:border-gray-700">
-                                <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">Event 1</th>
-                                <td class="px-4 py-3">12</td>
-                                <td class="px-4 py-3">2024-06-30</td>
-                                <td class="px-4 py-3">
-                                    <button type="button" class="w-full rounded-lg border border-blue-700 px-3 py-1 text-center text-sm font-medium text-blue-700 hover:bg-blue-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-900 lg:w-auto">Scanner</button>
-                                </td>
+                        <?php
+                            $con = openConnection();
+                            $strSql = "SELECT * FROM events WHERE user_id = '$user_id' AND event_status != 0 ORDER BY event_id DESC";
+                            $events = getRecord($con, $strSql);
+                            foreach($events as $event) {
+                                $event_id = $event['event_id'];
+                                $totalCount = getTotalDistinctSessionTitlesByEvent($event_id);
+                                echo '<tr class="border-b dark:border-gray-700">
+                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">'. $event['event_title'] .'</th>
+                                        <td class="px-4 py-3">'. $totalCount .'</td>
+                                        <td class="px-4 py-3">
+                                            <a href="event_qr_scanner_tailwind.php?event_id='.$event_id.'" class="w-full rounded-lg border border-blue-700 px-3 py-1 text-center text-sm font-medium text-blue-700 hover:bg-blue-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-900 lg:w-auto">Scanner</a>
+                                        </td>
+                                        
+                                    </tr>
+
+                                ';
                                 
-                            </tr>
+                            }
+                        ?>
 
                         </tbody>
                     </table>
