@@ -41,7 +41,7 @@
 		function getEventCountByUser($user_id) {
 			$connection = openConnection();
 
-			$sql = "SELECT COUNT(*) AS event_count FROM events WHERE user_id = ?";
+			$sql = "SELECT COUNT(*) AS event_count FROM events WHERE user_id = ? AND event_status != 0";
 			$stmt = mysqli_prepare($connection, $sql);
 
 			mysqli_stmt_bind_param($stmt, "i", $user_id);

@@ -28,7 +28,7 @@
                 <!-- TABLE -->
                 <?php
                     $con = openConnection();
-                    $strSql = "SELECT * FROM events WHERE user_id = '$user_id'";
+                    $strSql = "SELECT * FROM events WHERE user_id = '$user_id' and event_status != 0";
                     $events = getRecord($con, $strSql);
                     foreach ($events as $event) {
                         $event_id = $event['event_id']; ?>
