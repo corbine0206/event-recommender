@@ -14,6 +14,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="/tailwind.config.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
         
     </head>
@@ -163,8 +164,10 @@
                     echo "Failed to open the CSV file for participants.<br>";
                 }
             }
-            echo '<script type="text/javascript">
-                    swal({
+            echo '
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script type="text/javascript">
+                    Swal.fire({
                         title: "Success",
                         text: "Successfully added event",
                         icon: "success",
@@ -176,7 +179,7 @@
                 </script>';
         } else {
             echo '<script type="text/javascript">
-                    swal({
+                    Swal.fire({
                         title: "Warning",
                         text: "Failed to add event. Redirecting in 2 seconds.",
                         icon: "warning",

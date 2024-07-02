@@ -273,6 +273,8 @@
         </section>
 
         
+<!-- Ensure you load SweetAlert2 library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </body>
 </html>
 <?php
@@ -291,14 +293,15 @@ if (isset($_POST['confirm_delete_session'])) {
     if (mysqli_query($con, $strSql)) {
         // Success message and redirect
         echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script type="text/javascript">
-                swal({
+                Swal.fire({
                     title: "Success!",
-                    text: "Redirecting in 2 seconds. Successfully deleted session.",
-                    type: "success",
-                    timer: 2000,
+                    text: "Redirecting in 3 seconds. success to delete session.",
+                    icon: "success",
+                    timer: 3000,
                     showConfirmButton: false
-                }, function(){
+                }).then(function(){
                     window.location.href = "./event_tailwind.php";
                 });
             </script>
@@ -306,14 +309,15 @@ if (isset($_POST['confirm_delete_session'])) {
     } else {
         // Error message and redirect
         echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script type="text/javascript">
-                swal({
+                Swal.fire({
                     title: "Error!",
-                    text: "Redirecting in 3 seconds. Failed to delete session.",
-                    type: "error",
+                    text: "Redirecting in 3 seconds. failed to delete session.",
+                    icon: "error",
                     timer: 3000,
                     showConfirmButton: false
-                }, function(){
+                }).then(function(){
                     window.location.href = "./event_tailwind.php";
                 });
             </script>
@@ -340,14 +344,15 @@ if (isset($_POST['confirm_edit_session'])) {
     if (mysqli_query($con, $strSql)) {
         // Success message and redirect
         echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script type="text/javascript">
-                swal({
+                Swal.fire({
                     title: "Success!",
-                    text: "Redirecting in 2 seconds. Successfully updated session.",
-                    type: "success",
-                    timer: 2000,
+                    text: "Redirecting in 3 seconds. success to edit session.",
+                    icon: "success",
+                    timer: 3000,
                     showConfirmButton: false
-                }, function(){
+                }).then(function(){
                     window.location.href = "./event_tailwind.php";
                 });
             </script>
@@ -355,18 +360,19 @@ if (isset($_POST['confirm_edit_session'])) {
     } else {
     //     // Error message and redirect
         echo '
-            <script type="text/javascript">
-                swal({
-                    title: "Error!",
-                    text: "Redirecting in 3 seconds. Failed to update session.",
-                    type: "error",
-                    timer: 3000,
-                    showConfirmButton: false
-                }, function(){
-                    window.location.href = "./event_tailwind.php";
-                });
-            </script>
-        ';
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript">
+            Swal.fire({
+                title: "Error!",
+                text: "Redirecting in 3 seconds. failed to edit session.",
+                icon: "error",
+                timer: 3000,
+                showConfirmButton: false
+            }).then(function(){
+                window.location.href = "./event_tailwind.php";
+            });
+        </script>
+    ';
     }
 
     // Close the database connection
@@ -385,14 +391,15 @@ if (isset($_POST['confirm_delete_event'])){
     if (mysqli_query($con, $strSql)) {
         // Success message and redirect
         echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script type="text/javascript">
-                swal({
+                Swal.fire({
                     title: "Success!",
-                    text: "Redirecting in 2 seconds. Successfully delete event.",
-                    type: "success",
-                    timer: 2000,
+                    text: "Redirecting in 3 seconds. success to delete event.",
+                    icon: "success",
+                    timer: 3000,
                     showConfirmButton: false
-                }, function(){
+                }).then(function(){
                     window.location.href = "./event_tailwind.php";
                 });
             </script>
@@ -400,14 +407,15 @@ if (isset($_POST['confirm_delete_event'])){
     } else {
     //     // Error message and redirect
         echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script type="text/javascript">
-                swal({
+                Swal.fire({
                     title: "Error!",
-                    text: "Redirecting in 3 seconds. Failed to delete event.",
-                    type: "error",
+                    text: "Redirecting in 3 seconds. Failed to edit event.",
+                    icon: "error",
                     timer: 3000,
                     showConfirmButton: false
-                }, function(){
+                }).then(function(){
                     window.location.href = "./event_tailwind.php";
                 });
             </script>
@@ -427,29 +435,31 @@ if (isset($_POST['confirm_edit_event'])){
     if (mysqli_query($con, $strSql)) {
         // Success message and redirect
         echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script type="text/javascript">
-                swal({
+                Swal.fire({
                     title: "Success!",
-                    text: "Redirecting in 2 seconds. Successfully edit event.",
-                    type: "success",
+                    text: "Redirecting in 2 seconds. Successfully edited event.",
+                    icon: "success",
                     timer: 2000,
                     showConfirmButton: false
-                }, function(){
+                }).then(function(){
                     window.location.href = "./event_tailwind.php";
                 });
             </script>
         ';
     } else {
-    //     // Error message and redirect
+        // Error message and redirect
         echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script type="text/javascript">
-                swal({
+                Swal.fire({
                     title: "Error!",
-                    text: "Redirecting in 3 seconds. Failed to edit  event.",
-                    type: "error",
+                    text: "Redirecting in 3 seconds. Failed to edit event.",
+                    icon: "error",
                     timer: 3000,
                     showConfirmButton: false
-                }, function(){
+                }).then(function(){
                     window.location.href = "./event_tailwind.php";
                 });
             </script>
@@ -457,6 +467,8 @@ if (isset($_POST['confirm_edit_event'])){
     }
 }
 ?>
+
+
 
 <script>
     // Functions to open/close modals
