@@ -188,6 +188,11 @@
                                 </g>
                             </svg>
 
+                            <a href="participants_tailwind.php?event_id=<?php echo $event_id; ?>" class="inline-flex mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="15px" viewBox="0 0 24 24" width="15px" class="text-blue-500 hover:underline"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-8 8v-1c0-2.67 5.33-4 8-4s8 1.33 8 4v1H4z"/></svg>
+                            </a>
+
+
                             <span><?php echo $event_title; ?></span>
                             <span class="toggleTable" type="button" class="float-right">▼</span>
                         </div>
