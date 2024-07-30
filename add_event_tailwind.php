@@ -94,7 +94,7 @@
                     exit();
                 }
                 if (($csvFile = fopen($tmpName, 'r')) !== FALSE) {
-                    //fgetcsv($csvFile); // Skip the header row
+                    fgetcsv($csvFile); // Skip the header row
                     $mail = new PHPMailer(true);
                     $mail->isSMTP();
                     $mail->Host = 'sandbox.smtp.mailtrap.io';
